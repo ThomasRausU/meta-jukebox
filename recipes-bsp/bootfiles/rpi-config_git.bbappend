@@ -2,11 +2,13 @@ SRCREV = "648ffc470824c43eb0d16c485f4c24816b32cd6f"
 
 do_deploy_append() {  
     if [ -n "${WM8960_AUDIO_HAT}" ]; then
+    	sed -i -e 's:#dtparam=i2c_arm=off:dtparam=i2c_arm=on:g'  ${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt
     
-    	sed -i -e 's:#dtparam=i2c_arm=on:dtparam=i2c_arm=on:g'  ${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt
-    
-     	echo "dtoverlay=i2s-mmap" >> /boot/config.txt >> ${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt
+     	echo "dtoverlay=i2s-mmap" >> ${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt
      	echo "dtparam=i2s=on" >> ${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt
      	echo "dtoverlay=wm8960-soundcard" >> ${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt
-    fi    
+    fi
+    if [ -n "${RFID_RC522}" ]; then
+     	echo "dtparam=spi=on" >> ${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt
+    fi
 }
