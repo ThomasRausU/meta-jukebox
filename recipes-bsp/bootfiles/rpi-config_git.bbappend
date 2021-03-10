@@ -8,7 +8,4 @@ do_deploy_append() {
      	echo "dtparam=i2s=on" >> ${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt
      	echo "dtoverlay=wm8960-soundcard" >> ${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt
     fi
-    if [ -n "${RFID_RC522}" ]; then
-     	echo "dtparam=spi=on" >> ${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt
-    fi
 }

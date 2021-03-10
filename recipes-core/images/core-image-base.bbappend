@@ -1,5 +1,3 @@
-ENABLE_SPI_BUS="1"
-
 DISTRO_FEATURES_append = "wifi alsa"
 
 IMAGE_FEATURES_remove = "splash"
@@ -14,11 +12,9 @@ IMAGE_INSTALL_append = " linux-firmware-bcm43430 \
  						 locale-base-de-de \
  						 alsa-utils \
  						 python3 \
- 						 python3-mfrc522 "
- 						 
-MACHINE_FEATURES_append = "wifi"
+ 						 python3-mfrc522 \
+ 						 alsa-plugins \
+ 						 mpg123"
 
-
-IMAGE_CLASSES += "sdcard_image-rpi"
 
 
