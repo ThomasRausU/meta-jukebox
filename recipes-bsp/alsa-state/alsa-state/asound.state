@@ -125,8 +125,8 @@ state.wm8960soundcard {
 	control.10 {
 		iface MIXER
 		name 'Playback Volume'
-		value.0 238
-		value.1 238
+		value.0 247
+		value.1 247
 		comment {
 			access 'read write'
 			type INTEGER
@@ -134,15 +134,15 @@ state.wm8960soundcard {
 			range '0 - 255'
 			dbmin -9999999
 			dbmax 0
-			dbvalue.0 -850
-			dbvalue.1 -850
+			dbvalue.0 -400
+			dbvalue.1 -400
 		}
 	}
 	control.11 {
 		iface MIXER
 		name 'Headphone Playback Volume'
-		value.0 117
-		value.1 117
+		value.0 0
+		value.1 0
 		comment {
 			access 'read write'
 			type INTEGER
@@ -150,15 +150,15 @@ state.wm8960soundcard {
 			range '0 - 127'
 			dbmin -9999999
 			dbmax 600
-			dbvalue.0 -400
-			dbvalue.1 -400
+			dbvalue.0 -9999999
+			dbvalue.1 -9999999
 		}
 	}
 	control.12 {
 		iface MIXER
 		name 'Headphone Playback ZC Switch'
-		value.0 true
-		value.1 true
+		value.0 false
+		value.1 false
 		comment {
 			access 'read write'
 			type BOOLEAN
@@ -168,8 +168,8 @@ state.wm8960soundcard {
 	control.13 {
 		iface MIXER
 		name 'Speaker Playback Volume'
-		value.0 117
-		value.1 117
+		value.0 112
+		value.1 112
 		comment {
 			access 'read write'
 			type INTEGER
@@ -177,8 +177,8 @@ state.wm8960soundcard {
 			range '0 - 127'
 			dbmin -9999999
 			dbmax 600
-			dbvalue.0 -400
-			dbvalue.1 -400
+			dbvalue.0 -900
+			dbvalue.1 -900
 		}
 	}
 	control.14 {
@@ -601,7 +601,7 @@ state.wm8960soundcard {
 	control.50 {
 		iface MIXER
 		name 'Right Input Mixer Boost Switch'
-		value true
+		value false
 		comment {
 			access 'read write'
 			type BOOLEAN
@@ -651,7 +651,7 @@ state.wm8960soundcard {
 	control.55 {
 		iface MIXER
 		name 'Right Output Mixer RINPUT3 Switch'
-		value true
+		value false
 		comment {
 			access 'read write'
 			type BOOLEAN
@@ -661,7 +661,7 @@ state.wm8960soundcard {
 	control.56 {
 		iface MIXER
 		name 'Right Output Mixer Boost Bypass Switch'
-		value true
+		value false
 		comment {
 			access 'read write'
 			type BOOLEAN
@@ -671,7 +671,7 @@ state.wm8960soundcard {
 	control.57 {
 		iface MIXER
 		name 'Mono Output Mixer Left Switch'
-		value true
+		value false
 		comment {
 			access 'read write'
 			type BOOLEAN
@@ -681,7 +681,7 @@ state.wm8960soundcard {
 	control.58 {
 		iface MIXER
 		name 'Mono Output Mixer Right Switch'
-		value true
+		value false
 		comment {
 			access 'read write'
 			type BOOLEAN
