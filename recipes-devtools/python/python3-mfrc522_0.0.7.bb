@@ -14,7 +14,8 @@ PYPI_PACKAGE = "mfrc522"
 inherit pypi setuptools3
 
 RDEPENDS_${PN} = "rpi-gpio \
-			 	  python3-spidev"
+				  python3-core \
+				  python3-spidev"
 			 	  
 
 do_install_append() {

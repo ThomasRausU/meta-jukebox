@@ -11,10 +11,12 @@ IMAGE_INSTALL_append = " linux-firmware-bcm43430 \
  						 wpa-supplicant \
  						 locale-base-de-de \
  						 alsa-utils \
+ 						 openssh-sftp \
+ 						 psmisc \
  						 python3 \
  						 python3-mfrc522 \
- 						 alsa-plugins \
- 						 mpg123"
+ 						 syslog-ng"
 
 
 
+IMAGE_OVERHEAD_FACTOR = "2"
