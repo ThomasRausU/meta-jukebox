@@ -1,0 +1,45 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides: mopidy
+# Default-Start:  2345
+# Default-Stop:   016
+### END INIT INFO
+
+MOPIDY=/usr/bin/mopidy
+
+[ -x $MOPIDY ] || exit 1
+
+# Source function library.
+. /etc/init.d/functions
+
+case "$1" in
+  start)
+    echo -n "Starting MOPIDY : "
+    start-stop-daemon --start --background --quiet --make-pidfile --pidfile /var/run/mopidy.pid --exec $MOPIDY
+    RETVAL=$?
+    if [ $RETVAL -eq 0 ] ; then
+        echo "OK"
+    else
+        echo "FAIL"
+    fi
+    ;;
+  stop)
+    echo -n "Stopping MOPIDY: "
+    start-stop-daemon --stop --quiet --pidfile /var/run/mopidy.pid
+    RETVAL=$?
+    if [ $RETVAL -eq 0 ] ; then
+        echo "OK"
+    else
+        echo "FAIL"
+    fi
+    ;;
+  restart)
+    $0 stop && sleep 1 && $0 start
+    ;;
+  *)
+    echo "Usage: /etc/init.d/mopidy {start|stop|restart}"
+    exit 1
+esac
+
+exit 0
+

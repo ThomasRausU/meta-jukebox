@@ -3,19 +3,24 @@ HOMEPAGE = "https://www.mopidy.com/"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 
-SRC_URI[md5sum] = "519287f2ed8698b0018fbf07b35e0e4e"
-SRC_URI[sha256sum] = "d1ee47fd91ae7ce2bf99cf85ed9108ac48c3fb5f29b31c7fbe94fac45c6e4a0b"
+SRC_URI[sha256sum] = "a2d615010cd561bd7c5acf15a7787cf59cbb2856dc99d7ab91a54bbe3fcaebb2"
 
 SRC_URI += "\
-    file://0001-default.conf-Use-pulseaudio-as-default-output.patch \
-    file://0002-local-ext.conf-Replace-XDG_MUSIC_DIR-with-a-hardcode.patch \
     file://mopidy.service \
+    file://mopidy.init \
     "
 
 PYPI_PACKAGE = "Mopidy"
-inherit pypi setuptools systemd
+inherit pypi setuptools3 update-rc.d
+
+UPDATERCPN = "${PN}"
+INITSCRIPT_NAME = "mopidy"
+INITSCRIPT_PARAMS = "start 99 2 3 4 5 ."
+
 
 do_install_append() {
+	install -d ${D}${sysconfdir}/init.d/
+	install -m 0755 ${WORKDIR}/mopidy.init ${D}${sysconfdir}/init.d/mopidy
     install -d ${D}/${ROOT_HOME}/Music
     install -d ${D}/${systemd_system_unitdir}
     install -m 0644 ${WORKDIR}/mopidy.service ${D}/${systemd_system_unitdir}
@@ -25,15 +30,13 @@ RDEPENDS_${PN} += "\
     gstreamer1.0-plugins-base \
     gstreamer1.0-plugins-good \
     gstreamer1.0-python \
-    python-argparse \
-    python-futures \
-    python-misc \
-    python-pygobject \
+    python3-configargparse \
+    python3-pygobject \
     python-pykka \
-    python-requests \
-    python-setuptools \
-    python-tornado \
-    python-xml \
+    python3-requests \
+    python3-tornado \
+    python3-xml \
+    dpkg-start-stop \
     "
 
 RRECOMMENDS_${PN} = "\
