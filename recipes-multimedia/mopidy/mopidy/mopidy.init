@@ -15,7 +15,7 @@ MOPIDY=/usr/bin/mopidy
 case "$1" in
   start)
     echo -n "Starting MOPIDY : "
-    start-stop-daemon --start --background --quiet --make-pidfile --pidfile /var/run/mopidy.pid --exec $MOPIDY
+    start-stop-daemon --start --background --quiet --make-pidfile --pidfile /var/run/mopidy.pid --exec $MOPIDY -- --config /etc/mopidy/mopidy.conf
     RETVAL=$?
     if [ $RETVAL -eq 0 ] ; then
         echo "OK"

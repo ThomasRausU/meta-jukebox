@@ -3,7 +3,7 @@ server {
     listen 80 default_server;
     listen [::]:80 default_server;
 
-    root /var/www/rfidjukebox/htdocs;
+    root /var/www/rfidjukebox;
 
     index index.php;
 
@@ -17,7 +17,6 @@ server {
     fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
     include fastcgi_params;
   }
-
 
     # redirect server error pages to the static page /50x.html
     error_page 500 502 503 504 /50x.html;

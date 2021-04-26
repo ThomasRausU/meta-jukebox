@@ -8,6 +8,7 @@ SRC_URI[sha256sum] = "a2d615010cd561bd7c5acf15a7787cf59cbb2856dc99d7ab91a54bbe3f
 SRC_URI += "\
     file://mopidy.service \
     file://mopidy.init \
+    file://mopidy.conf \
     "
 
 PYPI_PACKAGE = "Mopidy"
@@ -17,6 +18,10 @@ UPDATERCPN = "${PN}"
 INITSCRIPT_NAME = "mopidy"
 INITSCRIPT_PARAMS = "start 99 2 3 4 5 ."
 
+inherit useradd
+
+USERADD_PACKAGES = "${PN}"
+USERADD_PARAM_${PN} = "--system --no-create-home --groups www-data --user-group mopdiy "
 
 do_install_append() {
 	install -d ${D}${sysconfdir}/init.d/
@@ -24,6 +29,8 @@ do_install_append() {
     install -d ${D}/${ROOT_HOME}/Music
     install -d ${D}/${systemd_system_unitdir}
     install -m 0644 ${WORKDIR}/mopidy.service ${D}/${systemd_system_unitdir}
+    install -d ${D}/usr/bin
+    install -m 0755 ${S}/extra/mopidyctl/mopidyctl ${D}/usr/bin/	
 }
 
 RDEPENDS_${PN} += "\
@@ -37,16 +44,15 @@ RDEPENDS_${PN} += "\
     python3-tornado \
     python3-xml \
     dpkg-start-stop \
+    python-mopidy-mpd \
+    python-mopidy-local \
     "
-
-RRECOMMENDS_${PN} = "\
-    pulseaudio-server \
-    pulseaudio-module-native-protocol-tcp \
-    "
+#     python-mopidy-iris     python-mopidy-spotify     
 
 FILES_${PN} += " \
     ${ROOT_HOME}/Music \
     ${systemd_system_unitdir}/mopidy.service \
+    /usr/bin/* \
     "
 
 SYSTEMD_SERVICE_${PN} = "mopidy.service"
