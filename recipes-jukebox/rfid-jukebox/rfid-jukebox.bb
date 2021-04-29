@@ -30,7 +30,7 @@ SRC_URI = "git://github.com/MiczFlor/RPi-Jukebox-RFID.git \
 		   file://rfidjukebox.sudoers" 
 
 S = "${WORKDIR}/git"
-
+# SRCREV = "305325d5a9c094e4c47efe6f8ec6d5d7d0fd10d1"
 SRCREV = "${AUTOREV}"
 PV = "dev+git${SRCPV}"
 
@@ -57,7 +57,7 @@ do_install () {
 	cp -r  ${S}/* ${jukebox_dir}/
 	chmod -R 775 ${jukebox_dir}/
 	
-    chown -R pi:www-data ${D}/pi/rfidjukebox
+    chown -R pi:www-data ${jukebox_dir}
     
     install -d  ${D}/etc/wpa_supplicant/
     ln -sf  ../wpa_supplicant.conf ${D}/etc/wpa_supplicant/wpa_supplicant.conf
