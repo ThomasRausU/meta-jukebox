@@ -23,7 +23,8 @@ IMAGE_INSTALL_append = " base-files \
  						 python3-mfrc522 \
  						 syslog-ng \
  						 htop \
- 						 ntp "
+ 						 ntp \
+ 						 vim "
 
 IMAGE_INSTALL_remove  = "alsa-plugins-pulseaudio-conf"
 
