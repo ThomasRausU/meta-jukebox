@@ -12,6 +12,7 @@ RDEPENDS_${PN} = "bash \
 				  python3-spidev \
 				  mopidy \				  
 				  php-fpm \
+				  grep \
 				  at \
 				  mpc \
 				  mpg123 \
@@ -30,8 +31,8 @@ SRC_URI = "git://github.com/MiczFlor/RPi-Jukebox-RFID.git \
 		   file://rfidjukebox.sudoers" 
 
 S = "${WORKDIR}/git"
-# SRCREV = "305325d5a9c094e4c47efe6f8ec6d5d7d0fd10d1"
-SRCREV = "${AUTOREV}"
+SRCREV = "305325d5a9c094e4c47efe6f8ec6d5d7d0fd10d1"
+# SRCREV = "${AUTOREV}"
 PV = "dev+git${SRCPV}"
 
 inherit useradd
@@ -41,7 +42,7 @@ USERADD_PARAM_${PN} = "-u 1111 -d /home/pi --groups www-data --user-group pi "
 
 GROUPADD_PARAM_${PN} = "-r www-data"
 
-jukebox_dir = "${D}/home/pi/rfidjukebox"
+jukebox_dir = "${D}/home/pi/RPi-Jukebox-RFID"
 user_group = "www-data"
 mod = "777"
 
@@ -52,7 +53,7 @@ do_compile () {
 do_install () {
 	install -d  ${D}/var/www/
 	install -d  ${jukebox_dir}
-	ln -sf /home/pi/rfidjukebox/htdocs ${D}/var/www/rfidjukebox
+	ln -sf /home/pi/RPi-Jukebox-RFID/htdocs ${D}/var/www/RPi-Jukebox-RFID
 	
 	cp -r  ${S}/* ${jukebox_dir}/
 	chmod -R 775 ${jukebox_dir}/
@@ -140,6 +141,9 @@ do_install () {
     
     install -d -m 0750 ${D}${sysconfdir}/sudoers.d
     install ../rfidjukebox.sudoers ${D}${sysconfdir}/sudoers.d/rfidjukebox
+    
+    cp "${jukebox_dir}"/misc/sampleconfigs/startupsound.mp3.sample "${jukebox_dir}"/shared/startupsound.mp3
+    cp "${jukebox_dir}"/misc/sampleconfigs/shutdownsound.mp3.sample "${jukebox_dir}"/shared/shutdownsound.mp3
 
 }
 

@@ -3,7 +3,7 @@ server {
     listen 80 default_server;
     listen [::]:80 default_server;
 
-    root /var/www/rfidjukebox;
+    root /var/www/RPi-Jukebox-RFID;
 
     index index.php;
 
