@@ -12,6 +12,7 @@ IMAGE_FEATURES_append = " ssh-server-openssh \
 
 IMAGE_INSTALL_append = " base-files \
 						 linux-firmware-bcm43430 \
+						 lsof \
 					     rfid-jukebox \
 					     psmisc \
  						 wpa-supplicant \
@@ -22,6 +23,7 @@ IMAGE_INSTALL_append = " base-files \
  						 python3 \
  						 python3-mfrc522 \
  						 syslog-ng \
+    			 		 tzdata \
  						 htop \
  						 ntp \
  						 vim "
