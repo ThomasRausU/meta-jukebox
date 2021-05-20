@@ -5,12 +5,12 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=00166340e58faaa5fb0ae892b09bf54f"
 
 # 				  packagegroup-meta-webserver-php 
 RDEPENDS_${PN} = "bash \
-				  nginx \					
+				  nginx \
 				  python3 \
 				  python3-pip \
 				  python3-mutagen \
 				  python3-spidev \
-				  mopidy \				  
+				  mopidy \
 				  php-fpm \
 				  grep \
 				  at \
@@ -43,6 +43,7 @@ USERADD_PARAM_${PN} = "-u 1111 -d /home/pi --groups www-data --user-group pi "
 GROUPADD_PARAM_${PN} = "-r www-data"
 
 jukebox_dir = "${D}/home/pi/RPi-Jukebox-RFID"
+jukebox_target_path = "/home/pi/RPi-Jukebox-RFID"
 user_group = "www-data"
 mod = "777"
 
@@ -67,13 +68,13 @@ do_install () {
     cp "${jukebox_dir}"/settings/rfid_trigger_play.conf.sample "${jukebox_dir}"/settings/rfid_trigger_play.conf
 
     # creating files containing editable values for configuration
-    echo "$AUDIOiFace" > "${jukebox_dir}"/settings/Audio_iFace_Name
-    echo "$DIRaudioFolders" > "${jukebox_dir}"/settings/Audio_Folders_Path
+    echo "playback" > "${jukebox_dir}"/settings/Audio_iFace_Name
+    echo "${jukebox_target_path}/shared/audiofolders" > "${jukebox_dir}"/settings/Audio_Folders_Path
     echo "3" > "${jukebox_dir}"/settings/Audio_Volume_Change_Step
     echo "100" > "${jukebox_dir}"/settings/Max_Volume_Limit
     echo "0" > "${jukebox_dir}"/settings/Idle_Time_Before_Shutdown
     echo "RESTART" > "${jukebox_dir}"/settings/Second_Swipe
-    echo "${jukebox_dir}/playlists" > "${jukebox_dir}"/settings/Playlists_Folders_Path
+    echo "${jukebox_target_path}/playlists" > "${jukebox_dir}"/settings/Playlists_Folders_Path
     echo "ON" > "${jukebox_dir}"/settings/ShowCover
 
     # sample file for debugging with all options set to FALSE
