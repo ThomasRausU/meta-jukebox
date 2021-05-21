@@ -9,6 +9,7 @@ SRC_URI += "\
     file://mopidy.service \
     file://mopidy.init \
     file://mopidy.conf \
+    file://logging.conf \
     "
 
 PYPI_PACKAGE = "Mopidy"
@@ -31,6 +32,9 @@ do_install_append() {
     install -m 0644 ${WORKDIR}/mopidy.service ${D}/${systemd_system_unitdir}
     install -d ${D}/usr/bin
     install -m 0755 ${S}/extra/mopidyctl/mopidyctl ${D}/usr/bin/	
+    install -d ${D}${sysconfdir}/mopidy/
+    install -m 0644 ${WORKDIR}/mopidy.conf ${D}${sysconfdir}/mopidy/
+    install -m 0644 ${WORKDIR}/logging.conf ${D}${sysconfdir}/mopidy/
 }
 
 RDEPENDS_${PN} += "\
