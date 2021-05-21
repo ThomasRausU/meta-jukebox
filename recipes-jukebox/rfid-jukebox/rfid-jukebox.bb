@@ -94,8 +94,8 @@ do_install () {
     chmod +x "${jukebox_dir}"/scripts/*.py       
     
     
-    install -d ${D}/etc/mopidy/
-    cp ${jukebox_dir}/misc/sampleconfigs/mopidy-etc.sample ${D}/etc/mopidy/mopidy.conf
+#    install -d ${D}/etc/mopidy/
+#    cp ${jukebox_dir}/misc/sampleconfigs/mopidy-etc.sample ${D}/etc/mopidy/mopidy.conf
     
 #        # Change vars to match install config
 #        sudo sed -i 's/%spotify_username%/'"$SPOTIuser"'/' "${etc_mopidy_conf}"
