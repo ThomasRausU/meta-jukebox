@@ -18,10 +18,9 @@ IMAGE_INSTALL_append = " base-files \
  						 wpa-supplicant \
  						 locale-base-de-de \
  						 alsa-utils \
- 						 openssh-sftp \
+ 						 openssh-sftp-server \
  						 psmisc \
  						 python3 \
- 						 python3-mfrc522 \
  						 syslog-ng \
     			 		 tzdata \
  						 htop \
