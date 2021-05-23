@@ -3,7 +3,6 @@ HOMEPAGE = "https://github.com/MiczFlor/RPi-Jukebox-RFID"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=00166340e58faaa5fb0ae892b09bf54f"
 
-# 				  packagegroup-meta-webserver-php 
 RDEPENDS_${PN} = "bash \
 				  nginx \
 				  python3 \
@@ -12,6 +11,7 @@ RDEPENDS_${PN} = "bash \
 				  python3-spidev \
 				  mopidy \
 				  php-fpm \
+				  php-cli \
 				  grep \
 				  at \
 				  mpc \
@@ -23,19 +23,25 @@ RDEPENDS_${PN} = "bash \
 				  python3-ply \
 				  python3-pycparser \
 				  python3-evdev \
+ 				  python3-pirc522 \
+ 				  python3-pyserial \
 				  sudo "
 				  
 # RDEPENDS_${PN} = "python3 python3-dev python3-pip python3-mutagen python3-gpiozero python3-spidev mopidy mopidy-mpd mopidy-local mopidy-spotify samba samba-common-bin gcc lighttpd php7.3-common php7.3-cgi php7.3 at mpd mpc mpg123 git ffmpeg resolvconf spi-tools netcat alsa-tools libspotify12 python3-cffi python3-ply python3-pycparser python3-spotify" 
 
 SRC_URI = "git://github.com/MiczFlor/RPi-Jukebox-RFID.git \
-		   file://rfidjukebox.sudoers" 
+		   file://rfidjukebox.sudoers \
+		   file://init" 
 
 S = "${WORKDIR}/git"
 SRCREV = "305325d5a9c094e4c47efe6f8ec6d5d7d0fd10d1"
 # SRCREV = "${AUTOREV}"
 PV = "dev+git${SRCPV}"
 
-inherit useradd
+inherit useradd update-rc.d
+
+INITSCRIPT_NAME = "rfidjukebox"
+INITSCRIPT_PARAMS = "defaults 10"
 
 USERADD_PACKAGES = "${PN}"
 USERADD_PARAM_${PN} = "-u 1111 -d /home/pi --groups www-data --user-group pi "
@@ -145,7 +151,16 @@ do_install () {
     
     cp "${jukebox_dir}"/misc/sampleconfigs/startupsound.mp3.sample "${jukebox_dir}"/shared/startupsound.mp3
     cp "${jukebox_dir}"/misc/sampleconfigs/shutdownsound.mp3.sample "${jukebox_dir}"/shared/shutdownsound.mp3
-
+    
+    #replace rfid reader to support rc522
+    cp "${jukebox_dir}"/scripts/Reader.py.experimental "${jukebox_dir}"/scripts/Reader.py
+    
+    #set MFRC522 as reader
+    echo "MFRC522" > "${jukebox_dir}"/scripts/deviceName.txt
+    
+    #install init script
+	install -d ${D}${sysconfdir}/init.d/
+	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/rfidjukebox
 }
 
 FILES_${PN} = "/*"
