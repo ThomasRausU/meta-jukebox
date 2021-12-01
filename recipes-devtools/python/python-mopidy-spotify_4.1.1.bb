@@ -9,4 +9,4 @@ SRC_URI[sha256sum] = "e137d0675288e48563c15d50cb2722c618f1a085673f96b620e64fafda
 PYPI_PACKAGE = "Mopidy-Spotify"
 inherit pypi setuptools3
 
-RDEPENDS_${PN} += "python-pyspotify"
+RDEPENDS:${PN} += "python-pyspotify"

@@ -7,3 +7,5 @@ SRC_URI[sha256sum] = "d34011dad9a053c149a408c25b0ff552406513063bc9cdaab2bde30e71
 
 PYPI_PACKAGE = "Mopidy-MPD"
 inherit pypi setuptools3
+
+RDEPENDS:${PN} = "python3-charset-normalizer"

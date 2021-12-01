@@ -12,7 +12,7 @@ SRC_URI[libspotify-12.1.51-Linux-armv6-release.sha256sum] = "4fb888eeb486578fa3a
 
 DEPENDS += "python3-cffi-native python3-setuptools-native libspotify"
 
-RDEPENDS_${PN} += "libspotify"
+RDEPENDS:${PN} += "libspotify"
 
 S = "${WORKDIR}/pyspotify-2.1.3"
 

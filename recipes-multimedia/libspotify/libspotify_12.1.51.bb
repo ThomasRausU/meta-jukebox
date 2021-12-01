@@ -25,6 +25,6 @@ do_install () {
 	prefix=${D} oe_runmake install
 }
 
-FILES_${PN} = "/*"
+FILES:${PN} = "/*"
 
-INSANE_SKIP_${PN} += "already-stripped ldflags"
+INSANE_SKIP:${PN} += "already-stripped ldflags"

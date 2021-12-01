@@ -9,9 +9,9 @@ SRC_URI[sha256sum] = "4cffd8ffcdad830f184ad37ef86df26bb476a2556f5f8a22b189cb35ab
 PYPI_PACKAGE = "Mopidy-Iris"
 inherit pypi setuptools3
 
-RDEPENDS_${PN} += "bash"
+RDEPENDS:${PN} += "bash"
 
-do_install_append () {
+do_install:append () {
 install -d ${D}/etc/sudoers.d/
 echo "mopidy ALL=NOPASSWD: ${PYTHON_SITEPACKAGES_DIR}/mopidy_iris/system.sh" > ${D}/etc/sudoers.d/mopidy-iris
 install -d ${D}/etc/nginx/sites-enabled/
@@ -20,7 +20,7 @@ install -m 0644 ../mopidy-iris ${D}/etc/nginx/sites-available/
 ln -sf ${S}/../sites-available/mopdiy-iris ${D}/etc/nginx/sites-enabled/
 }
 
-FILES_${PN} += "/etc/sudoers.d/mopidy-iris \
+FILES:${PN} += "/etc/sudoers.d/mopidy-iris \
 				/etc/nginx/sites-enabled/mopidy-iris \
 				/etc/nginx/sites-available/mopidy-iris \
 				"

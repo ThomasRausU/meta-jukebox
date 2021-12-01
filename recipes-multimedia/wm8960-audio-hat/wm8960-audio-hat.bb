@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/waveshare/WM8960-Audio-HAT"
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=d32239bcb673463ab874e80d47fae504"
 
-RDEPENDS_${PN} = "alsa-tools"
+RDEPENDS:${PN} = "alsa-tools"
 # SRC_URI = "git://github.com/waveshare/WM8960-Audio-HAT.git"
 SRC_URI = "file:///home/tro/git/WM8960-Audio-HAT"
 
@@ -22,7 +22,7 @@ S = "${WORKDIR}/home/tro/git/WM8960-Audio-HAT"
 # The inherit of module.bbclass will automatically name module packages with
 # "kernel-module-" prefix as required by the oe-core build environment.
 
-# RPROVIDES_${PN} += "kernel-module-wm8960"
+# RPROVIDES:${PN} += "kernel-module-wm8960"
 
 COMPATIBLE_MACHINE = "raspberrypi0-wifi"
 

@@ -22,9 +22,9 @@ INITSCRIPT_PARAMS = "start 99 2 3 4 5 ."
 inherit useradd
 
 USERADD_PACKAGES = "${PN}"
-USERADD_PARAM_${PN} = "--system --no-create-home --groups www-data --user-group mopdiy "
+USERADD_PARAM:${PN} = "--system --no-create-home --groups www-data --user-group mopdiy "
 
-do_install_append() {
+do_install:append() {
 	install -d ${D}${sysconfdir}/init.d/
 	install -m 0755 ${WORKDIR}/mopidy.init ${D}${sysconfdir}/init.d/mopidy
     install -d ${D}/${ROOT_HOME}/Music
@@ -37,7 +37,7 @@ do_install_append() {
     install -m 0644 ${WORKDIR}/logging.conf ${D}${sysconfdir}/mopidy/
 }
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     gstreamer1.0-plugins-base \
     gstreamer1.0-plugins-good \
     gstreamer1.0-python \
@@ -48,15 +48,15 @@ RDEPENDS_${PN} += "\
     python3-tornado \
     python3-xml \
     dpkg-start-stop \
-    python-mopidy-mpd \
+    python3-mopidy-mpd \
     python-mopidy-local \
     "
 #     python-mopidy-iris     python-mopidy-spotify     
 
-FILES_${PN} += " \
+FILES:${PN} += " \
     ${ROOT_HOME}/Music \
     ${systemd_system_unitdir}/mopidy.service \
     /usr/bin/* \
     "
 
-SYSTEMD_SERVICE_${PN} = "mopidy.service"
+SYSTEMD_SERVICE:${PN} = "mopidy.service"

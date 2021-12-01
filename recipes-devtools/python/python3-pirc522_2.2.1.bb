@@ -11,7 +11,7 @@ inherit distutils3
 
 S = "${WORKDIR}/pi-rc522-2.2.1"
 
-RDEPENDS_${PN} += "rpi-gpio \
+RDEPENDS:${PN} += "rpi-gpio \
                   python3-core \
                   python3-spidev"
                   

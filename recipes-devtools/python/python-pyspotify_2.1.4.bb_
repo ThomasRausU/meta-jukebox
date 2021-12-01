@@ -8,7 +8,7 @@ SRC_URI[sha256sum] = "6ae31d8ccd7e1f138a80f08c766173b2ced12d196732f68aee4ae023b7
 # DEPENDS += "python3-cffi-native python3-setuptools-native libspotify"
 DEPENDS += "python3-cffi-native python3-setuptools-native libspotify libffi"
 
-RDEPENDS_${PN} += "libspotify"
+RDEPENDS:${PN} += "libspotify"
 
 inherit pypi setuptools3 base
 
