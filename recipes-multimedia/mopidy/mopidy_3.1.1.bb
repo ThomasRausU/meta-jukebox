@@ -7,17 +7,17 @@ SRC_URI[sha256sum] = "a2d615010cd561bd7c5acf15a7787cf59cbb2856dc99d7ab91a54bbe3f
 
 SRC_URI += "\
     file://mopidy.service \
-    file://mopidy.init \
     file://mopidy.conf \
     file://logging.conf \
     "
 
 PYPI_PACKAGE = "Mopidy"
-inherit pypi setuptools3 update-rc.d
+inherit pypi setuptools3 systemd
 
 UPDATERCPN = "${PN}"
-INITSCRIPT_NAME = "mopidy"
-INITSCRIPT_PARAMS = "start 99 2 3 4 5 ."
+
+SYSTEMD_SERVICE:${PN} = "mopidy.service"
+
 
 inherit useradd
 
@@ -25,8 +25,6 @@ USERADD_PACKAGES = "${PN}"
 USERADD_PARAM:${PN} = "--system --no-create-home --groups www-data --user-group mopdiy "
 
 do_install:append() {
-	install -d ${D}${sysconfdir}/init.d/
-	install -m 0755 ${WORKDIR}/mopidy.init ${D}${sysconfdir}/init.d/mopidy
     install -d ${D}/${ROOT_HOME}/Music
     install -d ${D}/${systemd_system_unitdir}
     install -m 0644 ${WORKDIR}/mopidy.service ${D}/${systemd_system_unitdir}
@@ -43,13 +41,12 @@ RDEPENDS:${PN} += "\
     gstreamer1.0-python \
     python3-configargparse \
     python3-pygobject \
-    python-pykka \
+    python3-pykka \
     python3-requests \
     python3-tornado \
     python3-xml \
-    dpkg-start-stop \
     python3-mopidy-mpd \
-    python-mopidy-local \
+    python3-mopidy-local \
     "
 #     python-mopidy-iris     python-mopidy-spotify     
 
