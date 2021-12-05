@@ -21,6 +21,7 @@ IMAGE_INSTALL:append = " base-files \
  						 openssh-sftp-server \
  						 psmisc \
  						 python3 \
+ 						 python3-mopidy-iris \
  						 syslog-ng \
     			 		 tzdata \
  						 htop \
