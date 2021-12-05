@@ -10,12 +10,16 @@ RDEPENDS:${PN} = "bash \
 				  python3 \
 				  python3-pip \
 				  python3-mutagen \
+				  python3-mpd2 \
+				  python3-eyed3 \
+				  python3-deprecation \
+				  python3-pyalsaaudio \
 				  python3-spidev \
-				  mopidy \
 				  grep \
 				  at \
 				  mpc \
 				  mpg123 \
+				  mpd \
 				  git \
 				  netcat \
 				  alsa-tools \
@@ -27,11 +31,11 @@ RDEPENDS:${PN} = "bash \
  				  python3-pyserial \
  				  python3-pyzmq \
  				  python3-ruamel-yaml \
+ 				  python3-packaging \
+ 				  python3-requests \
+ 				  python3-filetype \
     			  ffmpeg \
-				  sudo "
-# 				  python3-gpiozero 
-				  
-# RDEPENDS:${PN} = "python3 python3-dev python3-pip python3-mutagen python3-gpiozero python3-spidev mopidy mopidy-mpd mopidy-local mopidy-spotify samba samba-common-bin gcc lighttpd php7.3-common php7.3-cgi php7.3 at mpd mpc mpg123 git ffmpeg resolvconf spi-tools netcat alsa-tools libspotify12 python3-cffi python3-ply python3-pycparser python3-spotify" 
+				  sudo " 
 
 SRC_URI = "git://github.com/MiczFlor/RPi-Jukebox-RFID.git;protocol=https;branch=future3/develop \
 		   file://rfidjukebox.sudoers" 
@@ -45,7 +49,7 @@ inherit useradd systemd
 SYSTEMD_SERVICE:${PN} = "jukebox-daemon.service"
 
 USERADD_PACKAGES = "${PN}"
-USERADD_PARAM:${PN} = "-u 1111 -d /home/pi --groups www-data --user-group pi "
+USERADD_PARAM:${PN} = "-u 1111 -d /home/pi --groups www-data --user-group pi" 
 
 GROUPADD_PARAM:${PN} = "-r www-data"
 
@@ -80,9 +84,24 @@ do_install () {
     chown -R pi:www-data ${D}${INSTALLATION_PATH}
 
     echo "  Register Jukebox settings"
+    cp ${S}/resources/default-settings/cards.example.yaml ${D}${SETTINGS_PATH}/cards.yaml
+    cp ${S}/resources/default-settings/gpio.example.yaml ${D}${SETTINGS_PATH}/gpio.yaml
     cp ${S}/resources/default-settings/jukebox.default.yaml ${D}${SETTINGS_PATH}/jukebox.yaml
     cp ${S}/resources/default-settings/logger.default.yaml ${D}${SETTINGS_PATH}/logger.yaml    
     
+    # Prepare new mpd.conf
+	AUDIOFOLDERS_PATH="${SHARED_PATH}/audiofolders"
+	PLAYLISTS_PATH="${SHARED_PATH}/playlists"
+	
+	#TODO configure card?! wm8960-soundcard
+	ALSA_MIXER_CONTROL="Speaker"
+	MPD_CONF_PATH="/etc/mpd.conf"
+	install -d ${D}/etc
+    cp ${S}/resources/default-settings/mpd.default.conf ${D}${MPD_CONF_PATH}
+    sed -i 's|%%JUKEBOX_AUDIOFOLDERS_PATH%%|'"$AUDIOFOLDERS_PATH"'|' ${D}${MPD_CONF_PATH}
+    sed -i 's|%%JUKEBOX_PLAYLISTS_PATH%%|'"$PLAYLISTS_PATH"'|' ${D}${MPD_CONF_PATH}
+    sed -i 's|%%JUKEBOX_ALSA_MIXER_CONTROL%%|'"$ALSA_MIXER_CONTROL"'|' ${D}${MPD_CONF_PATH}
+
 	install -d ${D}${sysconfdir}/nginx/sites-enabled
 	install -d ${D}${sysconfdir}/nginx/sites-available
     install -Dm 0644 ${S}/resources/default-settings/nginx.default ${D}/etc/nginx/sites-available/rfid-jukebox

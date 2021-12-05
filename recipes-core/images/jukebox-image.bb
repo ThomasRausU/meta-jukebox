@@ -26,7 +26,7 @@ IMAGE_INSTALL:append = " base-files \
  						 htop \
  						 ntp \
  						 vim \
- 						 rfid-jukebox"
+ 						 rfid-jukebox3"
 
 IMAGE_INSTALL:remove  = "alsa-plugins-pulseaudio-conf"
 
