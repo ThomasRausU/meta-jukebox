@@ -8,4 +8,4 @@ SRC_URI[sha256sum] = "29165157134fe869228da675e4d0083888368a29dc7dd3203fe1a27d7b
 PYPI_PACKAGE = "Mopidy-Local"
 inherit pypi setuptools3
 
-RDEPENDS:${PN} += "python-uritools"
+RDEPENDS:${PN} += "python3-uritools"
