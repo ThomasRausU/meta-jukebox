@@ -17,7 +17,7 @@ echo "mopidy ALL=NOPASSWD: ${PYTHON_SITEPACKAGES_DIR}/mopidy_iris/system.sh" > $
 install -d ${D}/etc/nginx/sites-enabled/
 install -d ${D}/etc/nginx/sites-available/
 install -m 0644 ../mopidy-iris ${D}/etc/nginx/sites-available/
-ln -sf 	../sites-available/mopdiy-iris ${D}/etc/nginx/sites-enabled/
+ln -sf 	../sites-available/mopidy-iris ${D}/etc/nginx/sites-enabled/
 }
 
 FILES:${PN} += "/etc/sudoers.d/mopidy-iris \

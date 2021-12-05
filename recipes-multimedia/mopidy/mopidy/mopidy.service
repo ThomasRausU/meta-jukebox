@@ -10,3 +10,4 @@ ExecStart=/usr/bin/mopidy --config /etc/mopidy/mopidy.conf
 
 [Install]
 WantedBy=multi-user.target
+Alias=mpd.service
