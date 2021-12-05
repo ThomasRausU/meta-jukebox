@@ -18,10 +18,8 @@ Dependencies
 Patches
 =======
 
-Please submit any patches against the meta-jukebox layer to the xxxx mailing list (xxxx@zzzz.org)
-and cc: the maintainer:
-
-Maintainer: XXX YYYYYY <xxx.yyyyyy@zzzzz.com>
+Please submit any patches against the [meta-jukebox](https://github.com/ThomasRausU/meta-jukebox) layer at github
+Maintainer: Thomas Roos <thomas@roosesweb.de>
 
 Table of Contents
 =================
