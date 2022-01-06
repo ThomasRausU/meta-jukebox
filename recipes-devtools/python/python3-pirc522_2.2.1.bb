@@ -1,15 +1,15 @@
 SUMMARY = "Raspberry Pi Python library for SPI RFID RC522 module."
-HOMEPAGE = "https://github.com/ondryaso/pi-rc522"
+HOMEPAGE = "https://github.com/ChisSoc/pi-rc522.git"
+
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://PKG-INFO;md5=be86bc663922d43c3d9e05719d38b890"
+LIC_FILES_CHKSUM = "file://LICENSE.md;md5=f06bfbd6c160d3fc079137e4e0252fe8"
 
-SRC_URI = "https://files.pythonhosted.org/packages/84/f2/e3d02257949e9caa9bff26044e0185e743ff45d3e0e099a93880e10bf718/pi-rc522-2.2.1.tar.gz"
-
-SRC_URI[sha256sum] = "438a65a8a50a824e800353e3642878f44e410444b67b028fc25474fb19e653f8"
+SRCREV = "ec881c255ac534acff4737bbc7e347ef5177ba61"
+SRC_URI = "git://github.com/ChisSoc/pi-rc522.git;protocol=https;branch=master"
 
 inherit distutils3 
 
-S = "${WORKDIR}/pi-rc522-2.2.1"
+S = "${WORKDIR}/git"
 
 RDEPENDS:${PN} += "rpi-gpio \
                   python3-core \
