@@ -13,14 +13,12 @@ RDEPENDS:${PN} = "bash \
 				  python3-mpd2 \
 				  python3-eyed3 \
 				  python3-deprecation \
-				  python3-pyalsaaudio \
 				  python3-spidev \
 				  grep \
 				  at \
 				  mpc \
 				  mpg123 \
 				  mpd \
-				  git \
 				  netcat \
 				  alsa-tools \
 				  python3-cffi \
@@ -45,14 +43,12 @@ S = "${WORKDIR}/git"
 SRCREV = "${AUTOREV}"
 PV = "dev+git${SRCPV}"
 
-inherit useradd systemd
-
-SYSTEMD_SERVICE:${PN} = "jukebox-daemon.service"
+inherit useradd
 
 USERADD_PACKAGES = "${PN}"
-USERADD_PARAM:${PN} = "-u 1111 -d /home/pi --groups www-data,audio --user-group pi" 
+USERADD_PARAM:${PN} = "-u 1111 -d /home/pi --groups www-data,audio,spi,input,i2c,gpio --user-group pi"
 
-GROUPADD_PARAM:${PN} = "-r www-data"
+GROUPADD_PARAM:${PN} = "-r www-data; -r spi; -r input; -r i2c; -r gpio"
 
 
 user_group = "www-data"
@@ -90,7 +86,7 @@ do_install () {
 	cp -r  ${S}/* ${D}${INSTALLATION_PATH}/
 	chmod -R 775 ${D}${INSTALLATION_PATH}/
 	
-    chown -R pi:pi ${D}${INSTALLATION_PATH}
+    chown -R pi:pi ${D}${INSTALLATION_PATH}/
 
     echo "  Register Jukebox settings"
     cp ${S}/resources/default-settings/cards.example.yaml ${D}${SETTINGS_PATH}/cards.yaml
@@ -106,7 +102,7 @@ do_install () {
     install ${S}/resources/default-settings/mpd.default.conf ${D}${MPD_CONF_FILE}
     chown -R pi:www-data ${D}${MPD_CONF_FILE}
     
-    install -d  ${D}/home/root/.config/mpd/
+    install -d ${D}/home/root/.config/mpd/
     ln -sf /home/pi/.config/mpd/mpd.conf ${D}/home/root/.config/mpd/
 
     
@@ -124,9 +120,18 @@ do_install () {
     rm -rf ${D}${INSTALLATION_PATH}/src/webapp/src
     rm -rf ${D}${INSTALLATION_PATH}/src/webapp/node_modules
     
-    # Systemd script
-    install -d ${D}${nonarch_base_libdir}/systemd/system
-    install -m 0755 ${S}/resources/default-services/jukebox-daemon.service ${D}${nonarch_base_libdir}/systemd/system
+    # Systemd script  
+    install -d ${D}/usr/lib/systemd/user/
+    install -m 0644 ${S}/resources/default-services/jukebox-daemon.service ${D}/usr/lib/systemd/user/
+    
+    # enable as user service
+    install -d -o pi ${D}/home/pi/.config/systemd/user/default.target.wants/
+    ln -sf /usr/lib/systemd/user/jukebox-daemon.service ${D}/home/pi/.config/systemd/user/default.target.wants/jukebox-daemon.service 
+    
+    
+    # this will enable systemd user mode services to start without a user logged in
+    install -d ${D}/var/lib/systemd/linger/
+    touch ${D}/var/lib/systemd/linger/pi
     
 # otherwise if configured as extsrc the sudoers file must be in local dir as well
 install -d  -m 0755 ${D}/etc/sudoers.d/
@@ -136,6 +141,61 @@ www ALL=(ALL:ALL) NOPASSWD: ALL
 pi ALL=(ALL:ALL) NOPASSWD: ALL
 EOF
     
+# this will allow to access hardware as user
+install -d  -m 0755 ${D}/etc/udev/rules.d/
+install -m 0644 /dev/null ${D}/etc/udev/rules.d/99-com-gpio.rules
+cat <<EOF >${D}/etc/udev/rules.d/99-com-gpio.rules
+SUBSYSTEM=="input", GROUP="input", MODE="0660"
+SUBSYSTEM=="i2c-dev", GROUP="i2c", MODE="0660"
+SUBSYSTEM=="spidev", GROUP="spi", MODE="0660"
+SUBSYSTEM=="bcm2835-gpiomem", KERNEL=="gpiomem", GROUP="gpio", MODE="0660"
+SUBSYSTEM=="gpio", KERNEL=="gpiochip*", ACTION=="add", PROGRAM="/bin/sh -c 'chown root:gpio /sys/class/gpio/export /sys/class/gpio/unexport ; chmod 220 /sys/class/gpio/export /sys/class/gpio/unexport'"
+SUBSYSTEM=="gpio", KERNEL=="gpio*", ACTION=="add", PROGRAM="/bin/sh -c 'chown root:gpio /sys%p/active_low /sys%p/direction /sys%p/edge /sys%p/value ; chmod 660 /sys%p/active_low /sys%p/direction /sys%p/edge /sys%p/value'"
+
+EOF
+
+    chown -R pi:pi ${D}/home/pi
+    
+    install -d -o pi ${D}/home/pi/.config/systemd/user/default.target.wants/
+    ln -sf /usr/lib/systemd/user/mpd.service ${D}/home/pi/.config/systemd/user/default.target.wants/
+    
+
+    install -d -o pi ${D}/home/pi/.config/systemd/user/sockets.target.wants/
+#    rm ${D}/etc/systemd/system/sockets.target.wants/mpd.socket
+    ln -sf /usr/lib/systemd/user/sockets.target.wants/mpd.socket ${D}/home/pi/.config/systemd/user/sockets.target.wants/
+    
+# this overwrite default settings with setup for rc522 spi rfid reader
+cat <<EOF >${D}${SETTINGS_PATH}/rfid.yaml
+rfid:
+  readers:
+    read_00:
+      module: rc522_spi
+      config:
+        spi_bus: 0
+        spi_ce: 0
+        pin_irq: 24
+        pin_rst: 25
+        mode_legacy: false
+        antenna_gain: 4
+        log_all_cards: true
+      same_id_delay: 1.0
+      log_ignored_cards: false
+      place_not_swipe:
+        enabled: false
+        card_removal_action:
+          alias: pause
+rfid.pinaction.rpi:
+  enabled: false
+  pin: 0
+  duration: 0.2
+  retrigger: true
+EOF
+
+#disable gpio controls
+cat <<EOF >${D}${SETTINGS_PATH}/gpio.yaml
+
+EOF
+
 }
 
 FILES:${PN} = "/*"
