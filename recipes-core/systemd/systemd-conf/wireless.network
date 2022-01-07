@@ -1,7 +1,0 @@
-[Match]
-Name=wlan0
-
-[Network]
-DHCP=false
-Address=xxx.xxx.xxx.xxx/xxx
-Gateway=xxx.xxx.xxx.xxx
