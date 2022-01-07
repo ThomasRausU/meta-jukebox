@@ -1,4 +1,4 @@
-SUMMARY = "Music Player Daemon"
+SUMMARY = "Music Player Daemon - disabled systemd because we need systemd user-mode for jukebox-daemon" 
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
 
