@@ -85,9 +85,10 @@ EOF
 
 #install mp3s
 install -d -o pi ${D}${INSTALLATION_PATH}/shared/audiofolders
-cp -r ${RFID_JUKEBOX_MP3_FOLDER} ${D}${INSTALLATION_PATH}/shared/audiofolders
-chown -R pi: ${D}${INSTALLATION_PATH}/shared/audiofolders/*
-
+if [ "${RFID_JUKEBOX_MP3_FOLDER}" != ""]; then
+		cp -r ${RFID_JUKEBOX_MP3_FOLDER} ${D}${INSTALLATION_PATH}/shared/audiofolders
+		chown -R pi: ${D}${INSTALLATION_PATH}/shared/audiofolders/*
+fi
 }
 
 # use local source instead of github
