@@ -14,6 +14,7 @@ RDEPENDS:${PN} = "bash \
 				  python3-eyed3 \
 				  python3-deprecation \
 				  python3-spidev \
+				  python3-pyalsaaudio \
 				  grep \
 				  at \
 				  mpc \
@@ -34,6 +35,9 @@ RDEPENDS:${PN} = "bash \
  				  python3-filetype \
  				  python3-pulsectl \
  				  pulseaudio-server \
+ 				  pulseaudio-misc \
+ 				  alsa-utils-amixer \
+			 	  alsa-utils-aplay \
     			  ffmpeg \
 				  sudo " 
 
