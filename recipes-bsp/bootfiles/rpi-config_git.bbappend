@@ -7,5 +7,6 @@ do_deploy:append() {
      	echo "dtoverlay=i2s-mmap" >> ${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt
      	echo "dtparam=i2s=on" >> ${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt
      	echo "dtoverlay=wm8960-soundcard" >> ${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt
+     	# echo "dtoverlay=gpio-shutdown,gpio_pin=17,active_low=1,gpio_pull=up" >> ${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt
     fi
 }
