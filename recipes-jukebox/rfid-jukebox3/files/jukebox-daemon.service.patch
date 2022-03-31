@@ -1,0 +1,14 @@
+Index: git/resources/default-services/jukebox-daemon.service
+===================================================================
+--- git.orig/resources/default-services/jukebox-daemon.service
++++ git/resources/default-services/jukebox-daemon.service
+@@ -6,8 +6,7 @@ Description=Jukebox Daemon
+ # pulseaudio is wanted by default.target, which means sound.target is not enough as after requirement
+ # https://serverfault.com/questions/812584/in-systemd-whats-the-difference-between-after-and-requires
+ # https://unix.stackexchange.com/questions/390898/understanding-systemd-requires-option
+-After=network.target sound.target mpd.service pulseaudio.service
+-Requires=mpd.service pulseaudio.service
++After=network.target sound.target
+ 
+ [Service]
+ ExecStart=/usr/bin/python3 run_jukebox.py

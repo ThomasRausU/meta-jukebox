@@ -1,0 +1,32 @@
+Index: git/resources/default-settings/mpd.default.conf
+===================================================================
+--- git.orig/resources/default-settings/mpd.default.conf
++++ git/resources/default-settings/mpd.default.conf
+@@ -67,7 +67,7 @@ sticker_file                   "~/.confi
+ # initialization. This setting is disabled by default and MPD is run as the
+ # current user.
+ #
+-# user				"root"
++user				"pi"
+ #
+ # This setting specifies the group that MPD will run as. If not specified
+ # primary group of user specified with "user" setting will be used (if set).
+@@ -241,13 +241,12 @@ decoder {
+ #
+ 
+ # Connect to Pulse locally via ALSA interface
++# Connect directly to PulseAudio
+ audio_output {
+-        type            "alsa"
+-        name            "Global ALSA->Pulse stream"
+-        mixer_type      "hardware"
+-        mixer_control   "Master"
+-        mixer_device    "pulse"
+-        device          "pulse"
++        type            "pulse"
++        name            "mpd"
++        format          "48000:16:2"
++        mixer_type      "software"
+ }
+ 
+ # An example of an ALSA output:

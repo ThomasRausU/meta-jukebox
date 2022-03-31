@@ -41,10 +41,14 @@ RDEPENDS:${PN} = "bash \
     			  ffmpeg \
 				  sudo " 
 
-SRC_URI = "git://github.com/ThomasRausU/RPi-Jukebox-RFID.git;protocol=https;branch=future3/develop" 
+SRC_URI = "git://github.com/MiczFlor/RPi-Jukebox-RFID.git;protocol=https;branch=future3/develop \
+		   file://jukebox-daemon.service.patch \
+		   file://mpd.default.conf.patch" 
 
 S = "${WORKDIR}/git"
-SRCREV = "${AUTOREV}"
+#SRCREV = "${AUTOREV}"
+#known good version
+SRCREV = "f4f4909ef90393030d46ed5f4891f9c683420047"
 PV = "dev+git${SRCPV}"
 
 inherit useradd
