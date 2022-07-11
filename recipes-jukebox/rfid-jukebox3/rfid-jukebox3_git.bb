@@ -38,18 +38,20 @@ RDEPENDS:${PN} = "bash \
  				  pulseaudio-misc \
  				  alsa-utils-amixer \
 			 	  alsa-utils-aplay \
-    			  ffmpeg \
-				  sudo " 
+    			ffmpeg \
+				  sudo \
+          espeak " 
 
-SRC_URI = "git://github.com/MiczFlor/RPi-Jukebox-RFID.git;protocol=https;branch=future3/develop \
+SRC_URI = "git://github.com/MiczFlor/RPi-Jukebox-RFID.git;protocol=https;branch=future3/main \
 		   file://jukebox-daemon.service.patch \
 		   file://mpd.default.conf.patch" 
 
 S = "${WORKDIR}/git"
 #SRCREV = "${AUTOREV}"
-#known good version
-SRCREV = "f4f4909ef90393030d46ed5f4891f9c683420047"
-PV = "dev+git${SRCPV}"
+#known good version#
+
+SRCREV = "80710235c13504816d0e0d50f9b3506a1e76d224"
+PV = "git${SRCPV}"
 
 inherit useradd
 
@@ -75,14 +77,17 @@ PLAYLISTS_PATH="${SHARED_PATH}/playlists"
 ALSA_MIXER_CONTROL="Speaker"
 MPD_CONF_PATH="/home/pi/.config/mpd/"
 MPD_CONF_FILE="${MPD_CONF_PATH}mpd.conf"
+do_compile[network]="true"
+
+export OPENSSL_MODULES="${STAGING_LIBDIR_NATIVE}/ossl-modules"
+export NODE_OPTIONS="--openssl-legacy-provider"
 
 do_compile () {
   echo "Building web application"
   cd ${S}/src/webapp
+  npm install
   npm ci --prefer-offline --no-audit --production
-#TODO necessary?
-#  rm -rf build
-
+  npx browserslist@latest --update-db
   npm run build
 }
 
@@ -211,7 +216,7 @@ FILES:${PN} = "/*"
 INSANE_SKIP:${PN} += "file-rdeps"
 
 # use local source instead of github
-#inherit externalsrc
-#EXTERNALSRC = "/home/xxx/git/RPi-Jukebox-RFID"
-#EXTERNALSRC_BUILD = "/home/xxx/git/RPi-Jukebox-RFID"
+# inherit externalsrc
+# EXTERNALSRC = "/home/tro/git/RPi-Jukebox-RFID"
+# EXTERNALSRC_BUILD = "/home/tro/git/RPi-Jukebox-RFID"
 
