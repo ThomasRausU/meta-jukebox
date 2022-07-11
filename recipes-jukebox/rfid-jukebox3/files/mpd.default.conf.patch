@@ -25,7 +25,7 @@ Index: git/resources/default-settings/mpd.default.conf
 -        device          "pulse"
 +        type            "pulse"
 +        name            "mpd"
-+        format          "48000:16:2"
++        format          "48000:16:1"
 +        mixer_type      "software"
  }
  
