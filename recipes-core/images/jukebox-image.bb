@@ -6,7 +6,9 @@ inherit core-image
 IMAGE_FEATURES:remove = "splash"
 
 IMAGE_FEATURES:append = " ssh-server-openssh \
-						  package-management"
+						  package-management \
+						  allow-empty-password \
+						  empty-root-password"
 
 IMAGE_INSTALL:append = " base-files \
 						 linux-firmware-bcm43430 \
@@ -33,8 +35,9 @@ IMAGE_INSTALL:append = " base-files \
 
 # set password toor for root
 # you will be forced to change this by the first login
-inherit extrausers
-EXTRA_USERS_PARAMS = "usermod -p $(openssl passwd toor) root;"
+# inherit extrausers
+# PASSWD = "$(openssl passwd toor)"
+# EXTRA_USERS_PARAMS = "usermod -p ${PASSWD} root;"
 
 PACKAGE_FEED_ARCHS = "all cortexa53 raspberrypi0_2w_64"
 # this should be configured in local.conf:
